@@ -30,7 +30,7 @@ public class CountryDataConfig {
     /**
      * Loads country data from the classpath resource and builds an adjacency map
      * where each country code maps to the set of its land-bordering country codes.
-     *
+     * <p>
      * Naming note: The adjacency map is actually a list of sets with bidirectional relationships between countries,
      *              but "adjacency map" is a more concise and commonly understood term in graph theory contexts.
      *
