@@ -27,9 +27,9 @@ public class AdjacencyMapBuilder {
         //                                              AFG
         //
         //   (connected)
-        //        + North America claster - CAN, MEX, USA
-        //        + Europen claster - AUT, CZE, DEU, ESP, FRA, ITA
-        //        + Central Asia claster - AFG, KAZ, KGZ, TJK, UZB
+        //        + North America cluster - CAN, MEX, USA
+        //        + Europen cluster - AUT, CZE, DEU, ESP, FRA, ITA
+        //        + Central Asia cluster - AFG, KAZ, KGZ, TJK, UZB
         //   (disconnected) JPN, GBR
 
         var adjacencyMap = new HashMap<String, Set<String>>();

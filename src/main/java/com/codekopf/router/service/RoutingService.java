@@ -150,7 +150,7 @@ public class RoutingService {
     private List<String> reconstructPath(final String meetingPoint, final Map<String, String> forwardParents, final Map<String, String> backwardParents) {
         var path = new ArrayList<String>();
 
-        // Pad the meeting point in the middle of the path
+        // Place the meeting point in the middle of the path
         var node = meetingPoint;
 
         // Trace from meeting point back to origin
