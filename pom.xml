@@ -12,7 +12,7 @@
 	<artifactId>router</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Route Calculator</name>
-	<description>Calculate route between points</description>
+	<description>Calculate land route between countries</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -32,7 +32,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 		<dependency>

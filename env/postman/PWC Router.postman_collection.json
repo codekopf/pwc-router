@@ -1,0 +1,31 @@
+{
+  "info": {
+    "_postman_id": "1a87f3be-0bc5-4b14-b5fc-b68091590be9",
+    "name": "PWC Router",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "2749597"
+  },
+  "item": [
+    {
+      "name": "Border crossings",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/routing/{{origin}}/{{destination}}",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "routing",
+            "{{origin}}",
+            "{{destination}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
