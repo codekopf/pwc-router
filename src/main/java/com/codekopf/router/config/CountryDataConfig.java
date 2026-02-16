@@ -54,14 +54,13 @@ public class CountryDataConfig {
     private Map<String, Set<String>> buildAdjacencyMap(final List<Country> countries) {
         var adjacencyMap = new HashMap<String, Set<String>>();
         for (var country : countries) {
-            var countryCode = country.getCode();
-            var countryNeighbours = country.getNeighbours();
-            if (countryNeighbours != null) {
-                for (var neighbour : countryNeighbours) {
-                    adjacencyMap.computeIfAbsent(countryCode, k -> new HashSet<>()).add(neighbour);
-                    adjacencyMap.computeIfAbsent(neighbour, k -> new HashSet<>()).add(countryCode);
-                }
+            if (country.neighbours() == null) {
+                continue;
             }
+            country.neighbours().forEach(neighbour -> {
+                adjacencyMap.computeIfAbsent(country.code(), k -> new HashSet<>()).add(neighbour);
+                adjacencyMap.computeIfAbsent(neighbour, k -> new HashSet<>()).add(country.code());
+            });
         }
         return adjacencyMap;
     }
