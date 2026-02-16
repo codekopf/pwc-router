@@ -55,6 +55,9 @@ public class RoutingService {
     }
 
     private void validateCountryCode(final String code) {
+        if (code == null || code.isBlank()) {
+            throw new IllegalArgumentException("Country code must not be null or blank");
+        }
         if (!adjacencyMap.containsKey(code)) {
             throw new RouteNotFoundException("Country code not found: " + code);
         }

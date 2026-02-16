@@ -74,7 +74,7 @@ class RoutingControllerTest {
             .andExpect(jsonPath("$.error").exists());
     }
 
-    // Incorrect input
+    // Incorrect input - Invalid country codes
 
     @Test
     void shouldReturnBadRequestForInvalidCountryCodeForOrigin() throws Exception {
@@ -95,6 +95,22 @@ class RoutingControllerTest {
         mockMvc.perform(get("/routing/XXX/ZZZ"))
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.error").value("Country code not found: XXX"));
+    }
+
+    // Incorrect input - Empty and blank input
+
+    @Test
+    void shouldReturnBadRequestWhenOriginIsBlank() throws Exception {
+        mockMvc.perform(get("/routing/ /CZE"))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.error").value("Country code must not be null or blank"));
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenDestinationIsBlank() throws Exception {
+        mockMvc.perform(get("/routing/CZE/ "))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.error").value("Country code must not be null or blank"));
     }
 
      // Edge case

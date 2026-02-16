@@ -1,12 +1,16 @@
 package com.codekopf.router.service;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import com.codekopf.router.exception.RouteNotFoundException;
 import com.codekopf.router.utils.AdjacencyMapBuilder;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -72,22 +76,41 @@ class RoutingServiceTest {
         assertTrue(exception.getMessage().contains("No land route found from JPN to GBR"));
     }
 
-    @Test
-    void shouldThrowWhenOriginNotFound() {
-        var exception = assertThrows(RouteNotFoundException.class, () -> routingService.findRoute("XXX", "CZE"));
-        assertTrue(exception.getMessage().contains("Country code not found: XXX"));
+    private static Stream<Arguments> notFoundCountryCodes() {
+        return Stream.of(
+            Arguments.of("XXX", "CZE", "XXX"),
+            Arguments.of("CZE", "YYY", "YYY"),
+            Arguments.of("XXX", "YYY", "XXX"),
+            Arguments.of("cze", "USA", "cze"),
+            Arguments.of("USA", "cze", "cze"),
+            Arguments.of("usa", "cze", "usa")
+        );
     }
 
-    @Test
-    void shouldThrowWhenDestinationNotFound() {
-        var exception = assertThrows(RouteNotFoundException.class, () -> routingService.findRoute("CZE", "YYY"));
-        assertTrue(exception.getMessage().contains("Country code not found: YYY"));
+    @ParameterizedTest
+    @MethodSource("notFoundCountryCodes")
+    void shouldThrowWhenCountryCodeNotFound(final String origin, final String destination, String expectedNotFoundCode) {
+        var exception = assertThrows(RouteNotFoundException.class, () -> routingService.findRoute(origin, destination));
+        assertTrue(exception.getMessage().contains("Country code not found: " + expectedNotFoundCode));
     }
 
-    @Test
-    void shouldThrowWhenOriginAndDestinationNotFound() {
-        var exception = assertThrows(RouteNotFoundException.class, () -> routingService.findRoute("XXX", "YYY"));
-        assertTrue(exception.getMessage().contains("Country code not found: XXX"));
+    private static Stream<Arguments> invalidCountryCodes() {
+        return Stream.of(
+            Arguments.of(null, "CZE"),
+            Arguments.of("CZE", null),
+            Arguments.of(null, null),
+            Arguments.of("   ", "CZE"),
+            Arguments.of("CZE", "   "),
+            Arguments.of("", "CZE"),
+            Arguments.of("CZE", "")
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("invalidCountryCodes")
+    void shouldThrowWhenCountryCodeIsInvalid(final String origin, final String destination) {
+        var exception = assertThrows(IllegalArgumentException.class, () -> routingService.findRoute(origin, destination));
+        assertTrue(exception.getMessage().contains("Country code must not be null or blank"));
     }
 
 }
