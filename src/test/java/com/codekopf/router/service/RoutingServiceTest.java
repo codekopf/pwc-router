@@ -33,17 +33,27 @@ class RoutingServiceTest {
     @Test
     void shouldFindRouteViaIntermediateCountry() {
         val route = routingService.findRoute("CZE", "ITA");
+        assertEquals(3, route.size());
         assertEquals("CZE", route.getFirst());
+        assertEquals("AUT", route.get(1));
         assertEquals("ITA", route.getLast());
-        assertTrue(route.size() <= 3, "Route should be at most 3 hops: CZE->AUT->ITA");
     }
 
     @Test
-    void shouldFindLongerRoute() {
+    void shouldFindShortestRouteIfMultipleOfSameLengthArePossible() {
         val route = routingService.findRoute("CZE", "ESP");
+        assertEquals(4, route.size());
         assertEquals("CZE", route.getFirst());
         assertEquals("ESP", route.getLast());
-        assertTrue(route.size() >= 3, "Route from CZE to ESP should pass through at least one intermediate country");
+    }
+
+    @Test
+    void shouldFindShortestRoute() {
+        val route = routingService.findRoute("KAZ", "AFG");
+        assertEquals(3, route.size());
+        assertEquals("KAZ", route.getFirst());
+        assertEquals("UZB", route.get(1));
+        assertEquals("AFG", route.getLast());
     }
 
     @Test
@@ -55,31 +65,31 @@ class RoutingServiceTest {
     @Test
     void shouldThrowWhenNoLandRoute() {
         val exception = assertThrows(RouteNotFoundException.class, () -> routingService.findRoute("CZE", "JPN"));
-        assertTrue(exception.getMessage().contains("No land route found"));
+        assertTrue(exception.getMessage().contains("No land route found from CZE to JPN"));
     }
 
     @Test
     void shouldThrowWhenBothIslandCountries() {
         val exception = assertThrows(RouteNotFoundException.class, () -> routingService.findRoute("JPN", "GBR"));
-        assertTrue(exception.getMessage().contains("No land route found"));
+        assertTrue(exception.getMessage().contains("No land route found from JPN to GBR"));
     }
 
     @Test
     void shouldThrowWhenOriginNotFound() {
         val exception = assertThrows(RouteNotFoundException.class, () -> routingService.findRoute("XXX", "CZE"));
-        assertTrue(exception.getMessage().contains("Country code not found"));
+        assertTrue(exception.getMessage().contains("Country code not found: XXX"));
     }
 
     @Test
     void shouldThrowWhenDestinationNotFound() {
         val exception = assertThrows(RouteNotFoundException.class, () -> routingService.findRoute("CZE", "YYY"));
-        assertTrue(exception.getMessage().contains("Country code not found"));
+        assertTrue(exception.getMessage().contains("Country code not found: YYY"));
     }
 
     @Test
     void shouldThrowWhenOriginAndDestinationNotFound() {
         val exception = assertThrows(RouteNotFoundException.class, () -> routingService.findRoute("XXX", "YYY"));
-        assertTrue(exception.getMessage().contains("Country code not found"));
+        assertTrue(exception.getMessage().contains("Country code not found: XXX"));
     }
 
 }

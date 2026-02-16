@@ -55,6 +55,16 @@ class RoutingControllerTest {
             .andExpect(jsonPath("$.route[-1:]").value("ITA"));
     }
 
+    @Test
+    void shouldReturnShortestRouteForValidRequest() throws Exception {
+        mockMvc.perform(get("/routing/KAZ/AFG"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.route").isArray())
+            .andExpect(jsonPath("$.route[0]").value("KAZ"))
+            .andExpect(jsonPath("$.route[1]").value("UZB"))
+            .andExpect(jsonPath("$.route[-1:]").value("AFG"));
+    }
+
     // Non-existing route
 
     @Test
