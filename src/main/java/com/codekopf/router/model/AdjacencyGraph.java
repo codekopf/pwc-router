@@ -20,8 +20,8 @@ public record AdjacencyGraph(Map<String, Set<String>> map) {
     }
 
     /**
-     * Returns the set of neighbouring country codes for the given country.
-     * Returns an empty set if the country has no neighbours or is not found.
+     * Returns the set of neighboring country codes for the given country.
+     * Returns an empty set if the country has no neighbors or is not found.
      *
      * @param code cca3 country code
      * @return set of neighbouring cca3 country codes
