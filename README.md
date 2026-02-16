@@ -2,6 +2,56 @@
 
 A Spring Boot REST service that calculates land routes between countries using their shared borders.
 
+## Table of Contents
+
+- [Developer Notes](#developer-notes)
+    - [Design Decisions](#design-decisions)
+    - [Technical Notes](#technical-notes)
+    - [Testing](#testing)
+- [Prerequisites](#prerequisites)
+- [Build](#build)
+- [Run](#run)
+- [API Usage](#api-usage)
+- [Docker](#docker)
+- [Run Tests](#run-tests)
+- [Technical Details](#technical-details)
+
+### Developer Notes
+
+### Design Decisions
+
+**Country Data Loading**
+
+Countries are loaded from a file rather than a database. This is based on the assumption that countries are finite and relatively stable—borders rarely change, and new countries are not created overnight. Given this stability, a file-based approach is simpler and sufficient for this use case.
+
+**Pathfinding Algorithm**
+
+Bidirectional BFS is used instead of standard BFS or DFS, as it is generally faster for finding the shortest path between two nodes.
+
+**Input Validation**
+
+Lowercase CCA3 codes are considered invalid. The task description does not explicitly state that only uppercase 3-letter codes are valid, so any input that does not exactly match a CCA3 code is treated as invalid.
+
+**Same Origin and Destination**
+
+When the origin and destination are the same country, the service treats this as a valid route and returns a single-element array. This edge case was not explicitly defined in the task description, so I opted for the more permissive behavior rather than throwing an error.
+
+### Technical Notes
+
+**Java Version**
+
+Java 25 LTS is used, as it is already 2026.
+
+**Lombok**
+
+I typically use Lombok to reduce Java boilerplate. However, the current version of Lombok does not support Java 25, so it has been removed entirely from this project.
+
+### Testing
+
+**Postman Collection**
+
+A Postman collection is included in the project for manual API testing.
+
 ## Prerequisites
 
 - **Java 25** (JDK 25 or later)
@@ -119,7 +169,7 @@ docker run -p 8080:8080 route-calculator
 - **Framework:** Spring Boot 4.0.2
 - **Language:** Java 25
 - **Algorithm:** Bidirectional BFS for efficient shortest-path calculation between countries
-- **Data source:** Country border data bundled from [mledoze/countries](https://raw.githubusercontent.com/mledoze/countries/master/countries.json ) as a classpath resource
+- **Data source:** Country border data bundled from [mledoze/countries](https://raw.githubusercontent.com/mledoze/countries/master/countries.json) as a classpath resource
 
 ### How it works
 
