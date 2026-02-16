@@ -60,8 +60,8 @@ public class CountryDataConfig {
                 continue;
             }
             country.neighbours().forEach(neighbour -> {
-                adjacencyMap.computeIfAbsent(country.code(), k -> new HashSet<>()).add(neighbour);
-                adjacencyMap.computeIfAbsent(neighbour, k -> new HashSet<>()).add(country.code());
+                adjacencyMap.computeIfAbsent(country.code(), _ -> new HashSet<>()).add(neighbour);
+                adjacencyMap.computeIfAbsent(neighbour, _ -> new HashSet<>()).add(country.code());
             });
         }
         return adjacencyMap;
