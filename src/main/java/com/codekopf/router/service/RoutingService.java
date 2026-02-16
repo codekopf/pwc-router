@@ -23,7 +23,7 @@ public class RoutingService {
 
     /**
      * Finds a land route between two countries identified by their cca3 codes.
-     *
+     * <p>
      * Fail fast, validating the input country codes before attempting to find a route.
      * If either code (origin and destination) is invalid, a RouteNotFoundException is thrown immediately
      * on source code validation failure, without attempting to validate the destination code.
@@ -34,8 +34,16 @@ public class RoutingService {
      * @throws RouteNotFoundException if no land route exists or country codes are invalid
      */
     public List<String> findRoute(final String origin, final String destination) {
+
+        // Validate input country codes before attempting to find a route
         validateCountryCode(origin);
         validateCountryCode(destination);
+
+        // Edge case: if origin and destination are the same, return a route with just that country
+        if (origin.equals(destination)) {
+            return List.of(origin);
+        }
+
         return List.of(origin, destination);
     }
 
