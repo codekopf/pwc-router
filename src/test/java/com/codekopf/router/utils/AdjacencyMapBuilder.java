@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import lombok.experimental.UtilityClass;
-import lombok.val;
-
-@UtilityClass
 public class AdjacencyMapBuilder {
+
+    private AdjacencyMapBuilder() {
+        // Private constructor to prevent instantiation
+    }
 
     public static Map<String, Set<String>> getSimpleAdjacencyMapForTesting() {
 
@@ -32,7 +32,7 @@ public class AdjacencyMapBuilder {
         //        + Central Asia claster - AFG, KAZ, KGZ, TJK, UZB
         //   (disconnected) JPN, GBR
 
-        val adjacencyMap = new HashMap<String, Set<String>>();
+        var adjacencyMap = new HashMap<String, Set<String>>();
         adjacencyMap.put("AFG", Set.of("UZB", "TJK"));
         adjacencyMap.put("AUT", Set.of("CZE", "ITA", "CHE"));
         adjacencyMap.put("CHE", Set.of("AUT", "ITA", "DEU"));

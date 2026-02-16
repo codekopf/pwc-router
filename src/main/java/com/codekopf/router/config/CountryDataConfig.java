@@ -12,9 +12,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
-import lombok.extern.slf4j.Slf4j;
-import lombok.val;
-
 import com.codekopf.router.model.Country;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -24,7 +21,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * Configuration class responsible for loading country data from the bundled JSON resource
  * and building an adjacency graph used for route calculation.
  */
-@Slf4j
 @Configuration
 public class CountryDataConfig {
 
@@ -41,14 +37,14 @@ public class CountryDataConfig {
      */
     @Bean
     public Map<String, Set<String>> adjacencyMap() {
-        val countries = loadCountries();
-        val adjacencyMap = buildAdjacencyMap(countries);
+        var countries = loadCountries();
+        var adjacencyMap = buildAdjacencyMap(countries);
         return Collections.unmodifiableMap(adjacencyMap);
     }
 
     private List<Country> loadCountries() {
-        try (val inputStream = new ClassPathResource(COUNTRIES_RESOURCE).getInputStream()) {
-            val objectMapper = new ObjectMapper();
+        try (var inputStream = new ClassPathResource(COUNTRIES_RESOURCE).getInputStream()) {
+            var objectMapper = new ObjectMapper();
             return objectMapper.readValue(inputStream, new TypeReference<>() {});
         } catch (final IOException e) {
             throw new IllegalStateException("Failed to load country data from classpath resource: " + COUNTRIES_RESOURCE, e);
@@ -56,7 +52,7 @@ public class CountryDataConfig {
     }
 
     private Map<String, Set<String>> buildAdjacencyMap(final List<Country> countries) {
-        val adjacencyMap = new HashMap<String, Set<String>>();
+        var adjacencyMap = new HashMap<String, Set<String>>();
 
         for (var country : countries) {
             var countryCode = country.getCode();

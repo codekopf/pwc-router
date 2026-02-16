@@ -11,10 +11,6 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import lombok.val;
-
 import com.codekopf.router.exception.RouteNotFoundException;
 
 /**
@@ -22,12 +18,14 @@ import com.codekopf.router.exception.RouteNotFoundException;
  * Bidirectional BFS explores from both the origin and destination simultaneously,
  * meeting in the middle for significantly better performance than standard BFS.
  */
-@Slf4j
 @Service
-@RequiredArgsConstructor
 public class RoutingService {
 
     private final Map<String, Set<String>> adjacencyMap;
+
+    public RoutingService(final Map<String, Set<String>> adjacencyMap) {
+        this.adjacencyMap = adjacencyMap;
+    }
 
     /**
      * Finds a land route between two countries identified by their cca3 codes.
@@ -73,14 +71,14 @@ public class RoutingService {
      */
     private List<String> bidirectionalBfs(final String origin, final String destination) {
 
-        val originQueue = new LinkedList<String>(); // Queue for traveling from source toward destination
-        val destinationQueue = new LinkedList<String>(); // Queue for traveling from destination toward source
+        var originQueue = new LinkedList<String>(); // Queue for traveling from source toward destination
+        var destinationQueue = new LinkedList<String>(); // Queue for traveling from destination toward source
 
         originQueue.add(origin);
         destinationQueue.add(destination);
 
-        val parentsFromOriginDirection = new HashMap<String, String>(); // Track visited countries and their parents for the origin-side search
-        val parentsFromDestinationDirection = new HashMap<String, String>(); // Track visited countries and their parents for the destination-side search
+        var parentsFromOriginDirection = new HashMap<String, String>(); // Track visited countries and their parents for the origin-side search
+        var parentsFromDestinationDirection = new HashMap<String, String>(); // Track visited countries and their parents for the destination-side search
 
         parentsFromOriginDirection.put(origin, null);
         parentsFromDestinationDirection.put(destination, null);
@@ -113,7 +111,7 @@ public class RoutingService {
      * @return the meeting point country code if the two searches meet, or null
      */
     private String expandFrontier(final Queue<String> queue, final Map<String, String> thisParents, final Map<String, String> otherParents) {
-        val levelSize = queue.size();
+        var levelSize = queue.size();
 
         for (int i = 0; i < levelSize; i++) {
 
@@ -150,7 +148,7 @@ public class RoutingService {
      * @return complete ordered route from origin to destination
      */
     private List<String> reconstructPath(final String meetingPoint, final Map<String, String> forwardParents, final Map<String, String> backwardParents) {
-        val path = new ArrayList<String>();
+        var path = new ArrayList<String>();
 
         // Pad the meeting point in the middle of the path
         var node = meetingPoint;
