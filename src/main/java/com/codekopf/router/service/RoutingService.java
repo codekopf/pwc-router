@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.codekopf.router.exception.RouteNotFoundException;
@@ -23,7 +24,7 @@ public class RoutingService {
 
     private final Map<String, Set<String>> adjacencyMap;
 
-    public RoutingService(final Map<String, Set<String>> adjacencyMap) {
+    public RoutingService(@Qualifier("adjacencyMap") final Map<String, Set<String>> adjacencyMap) {
         this.adjacencyMap = adjacencyMap;
     }
 

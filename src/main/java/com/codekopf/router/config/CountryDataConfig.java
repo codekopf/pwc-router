@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -36,6 +37,7 @@ public class CountryDataConfig {
      * @return unmodifiable adjacency map where the key is cca3 country codes and value is a set of neighboring cca3 country codes
      */
     @Bean
+    @Qualifier("adjacencyMap")
     public Map<String, Set<String>> adjacencyMap() {
         var countries = loadCountries();
         var adjacencyMap = buildAdjacencyMap(countries);
