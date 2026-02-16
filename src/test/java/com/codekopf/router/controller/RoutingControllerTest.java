@@ -1,8 +1,5 @@
 package com.codekopf.router.controller;
 
-import java.util.Map;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Bean;
@@ -11,8 +8,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.codekopf.router.exception.GlobalExceptionHandler;
+import com.codekopf.router.model.AdjacencyGraph;
 import com.codekopf.router.service.RoutingService;
-import com.codekopf.router.utils.AdjacencyMapBuilder;
+import com.codekopf.router.utils.AdjacencyGraphBuilder;
 
 import org.junit.jupiter.api.Test;
 
@@ -32,13 +30,13 @@ class RoutingControllerTest {
     static class TestConfig {
 
         @Bean
-        public Map<String, Set<String>> adjacencyMap() {
-            return AdjacencyMapBuilder.getSimpleAdjacencyMapForTesting();
+        public AdjacencyGraph adjacencyGraph() {
+            return AdjacencyGraphBuilder.getSimpleAdjacencyGraphForTesting();
         }
 
         @Bean
-        public RoutingService routingService(final Map<String, Set<String>> adjacencyMap) {
-            return new RoutingService(adjacencyMap);
+        public RoutingService routingService(final AdjacencyGraph adjacencyGraph) {
+            return new RoutingService(adjacencyGraph);
         }
 
     }

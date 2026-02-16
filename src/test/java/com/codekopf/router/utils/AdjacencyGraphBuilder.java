@@ -1,16 +1,17 @@
 package com.codekopf.router.utils;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
-public class AdjacencyMapBuilder {
+import com.codekopf.router.model.AdjacencyGraph;
 
-    private AdjacencyMapBuilder() {
+public class AdjacencyGraphBuilder {
+
+    private AdjacencyGraphBuilder() {
         // Private constructor to prevent instantiation
     }
 
-    public static Map<String, Set<String>> getSimpleAdjacencyMapForTesting() {
+    public static AdjacencyGraph getSimpleAdjacencyGraphForTesting() {
 
         // Building a small test graph:
         //
@@ -50,7 +51,7 @@ public class AdjacencyMapBuilder {
         adjacencyMap.put("TJK", Set.of("KGZ", "AFG"));
         adjacencyMap.put("USA", Set.of("CAN", "MEX"));
         adjacencyMap.put("UZB", Set.of("KAZ", "AFG"));
-        return adjacencyMap;
+        return new AdjacencyGraph(adjacencyMap);
     }
 
 }

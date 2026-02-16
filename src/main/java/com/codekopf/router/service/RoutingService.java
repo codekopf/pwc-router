@@ -7,12 +7,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.codekopf.router.exception.RouteNotFoundException;
+import com.codekopf.router.model.AdjacencyGraph;
 
 /**
  * Service that calculates a land route between two countries using bidirectional BFS.
@@ -22,10 +21,10 @@ import com.codekopf.router.exception.RouteNotFoundException;
 @Service
 public class RoutingService {
 
-    private final Map<String, Set<String>> adjacencyMap;
+    private final AdjacencyGraph adjacencyGraph;
 
-    public RoutingService(@Qualifier("adjacencyMap") final Map<String, Set<String>> adjacencyMap) {
-        this.adjacencyMap = adjacencyMap;
+    public RoutingService(final AdjacencyGraph adjacencyGraph) {
+        this.adjacencyGraph = adjacencyGraph;
     }
 
     /**
@@ -58,7 +57,7 @@ public class RoutingService {
         if (code == null || code.isBlank()) {
             throw new IllegalArgumentException("Country code must not be null or blank");
         }
-        if (!adjacencyMap.containsKey(code)) {
+        if (!adjacencyGraph.containsCountry(code)) {
             throw new RouteNotFoundException("Country code not found: " + code);
         }
     }
@@ -121,7 +120,7 @@ public class RoutingService {
 
             var currentCountry = queue.poll();
 
-            var neighboringCountries = adjacencyMap.getOrDefault(currentCountry, Set.of());
+            var neighboringCountries = adjacencyGraph.getNeighbours(currentCountry);
 
             for (var neighbor : neighboringCountries) {
 

@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
+import com.codekopf.router.model.AdjacencyGraph;
 import com.codekopf.router.model.Country;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -28,20 +28,16 @@ public class CountryDataConfig {
     private static final String COUNTRIES_RESOURCE = "countries.json";
 
     /**
-     * Loads country data from the classpath resource and builds an adjacency map
+     * Loads country data from the classpath resource and builds an adjacency graph
      * where each country code maps to the set of its land-bordering country codes.
-     * <p>
-     * Naming note: The adjacency map is actually a list of sets with bidirectional relationships between countries,
-     *              but "adjacency map" is a more concise and commonly understood term in graph theory contexts.
      *
-     * @return unmodifiable adjacency map where the key is cca3 country codes and value is a set of neighboring cca3 country codes
+     * @return an {@link AdjacencyGraph} wrapping an unmodifiable map of cca3 country codes to their neighbors
      */
     @Bean
-    @Qualifier("adjacencyMap")
-    public Map<String, Set<String>> adjacencyMap() {
+    public AdjacencyGraph adjacencyGraph() {
         var countries = loadCountries();
         var adjacencyMap = buildAdjacencyMap(countries);
-        return Collections.unmodifiableMap(adjacencyMap);
+        return new AdjacencyGraph(Collections.unmodifiableMap(adjacencyMap));
     }
 
     private List<Country> loadCountries() {

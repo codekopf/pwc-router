@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import com.codekopf.router.exception.RouteNotFoundException;
-import com.codekopf.router.utils.AdjacencyMapBuilder;
+import com.codekopf.router.utils.AdjacencyGraphBuilder;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,8 +22,8 @@ class RoutingServiceTest {
 
     @BeforeEach
     void setUp() {
-        var adjacencyMap = AdjacencyMapBuilder.getSimpleAdjacencyMapForTesting();
-        routingService = new RoutingService(adjacencyMap);
+        var adjacencyGraph = AdjacencyGraphBuilder.getSimpleAdjacencyGraphForTesting();
+        routingService = new RoutingService(adjacencyGraph);
     }
 
     @Test
