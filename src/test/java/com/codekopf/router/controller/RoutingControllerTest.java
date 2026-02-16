@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.codekopf.router.exception.GlobalExceptionHandler;
 import com.codekopf.router.service.RoutingService;
 import com.codekopf.router.utils.AdjacencyMapBuilder;
 
@@ -20,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(RoutingController.class)
-@Import(RoutingControllerTest.TestConfig.class)
+@Import({RoutingControllerTest.TestConfig.class, GlobalExceptionHandler.class})
 class RoutingControllerTest {
 
     @Autowired
@@ -86,7 +87,7 @@ class RoutingControllerTest {
             .andExpect(jsonPath("$.error").value("Country code not found: XXX"));
     }
 
-     // Edge cases
+     // Edge case
 
     @Test
     void shouldReturnSingleCountryWhenSameOriginAndDestination() throws Exception {
