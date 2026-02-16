@@ -1,5 +1,8 @@
 package com.codekopf.router.controller;
 
+import java.util.Map;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Bean;
@@ -8,6 +11,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.codekopf.router.service.RoutingService;
+import com.codekopf.router.utils.AdjacencyMapBuilder;
 
 import org.junit.jupiter.api.Test;
 
@@ -27,8 +31,13 @@ class RoutingControllerTest {
     static class TestConfig {
 
         @Bean
-        public RoutingService routingService() {
-            return new RoutingService();
+        public Map<String, Set<String>> adjacencyMap() {
+            return AdjacencyMapBuilder.getSimpleAdjacencyMapForTesting();
+        }
+
+        @Bean
+        public RoutingService routingService(final Map<String, Set<String>> adjacencyMap) {
+            return new RoutingService(adjacencyMap);
         }
 
     }
@@ -57,7 +66,7 @@ class RoutingControllerTest {
     // Incorrect input
 
     @Test
-    void shouldReturnBadRequestForInvalidCountryCodeForSource() throws Exception {
+    void shouldReturnBadRequestForInvalidCountryCodeForOrigin() throws Exception {
         mockMvc.perform(get("/routing/XXX/ITA"))
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.error").value("Country code not found: XXX"));
@@ -71,7 +80,7 @@ class RoutingControllerTest {
     }
 
     @Test
-    void shouldReturnBadRequestForInvalidCountryCodeForBothSourceAndDestinationReturnFirstInvalid() throws Exception {
+    void shouldReturnBadRequestForInvalidCountryCodeForBothOriginAndDestinationReturnFirstInvalid() throws Exception {
         mockMvc.perform(get("/routing/XXX/ZZZ"))
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.error").value("Country code not found: XXX"));
