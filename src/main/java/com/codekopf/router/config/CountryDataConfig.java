@@ -15,8 +15,8 @@ import org.springframework.core.io.ClassPathResource;
 import com.codekopf.router.model.AdjacencyGraph;
 import com.codekopf.router.model.Country;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * Configuration class responsible for loading country data from the bundled JSON resource
