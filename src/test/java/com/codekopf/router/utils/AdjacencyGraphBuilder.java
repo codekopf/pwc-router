@@ -8,7 +8,6 @@ import com.codekopf.router.model.AdjacencyGraph;
 public class AdjacencyGraphBuilder {
 
     private AdjacencyGraphBuilder() {
-        // Private constructor to prevent instantiation
     }
 
     public static AdjacencyGraph getSimpleAdjacencyGraphForTesting() {
@@ -29,7 +28,7 @@ public class AdjacencyGraphBuilder {
         //
         //   (connected)
         //        + North America cluster - CAN, MEX, USA
-        //        + Europen cluster - AUT, CZE, DEU, ESP, FRA, ITA
+        //        + Europe cluster - AUT, CZE, DEU, ESP, FRA, ITA
         //        + Central Asia cluster - AFG, KAZ, KGZ, TJK, UZB
         //   (disconnected) JPN, GBR
 
